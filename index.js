@@ -1,6 +1,8 @@
 const express = require('express') //importar el modulo de express
 const app = express() // creamos la app
 
+app.use(express.json())
+
 let persons =
      [
       {
@@ -52,6 +54,30 @@ app.delete('/api/persons/:id', (request, response) => {
     persons = persons.filter(person => person.id !== id)
 
     response.status(204).end()
+
+})
+
+app.post('/api/persons', (request, response) => {
+    const person = request.body
+
+    if(!person || !person.name){
+        return response.status(400).json({
+            error: 'person content is missing'
+        })
+    }
+
+    const ids = persons.map(person => person.id)
+    const idMax = Math.max(...ids)
+
+    const newPerson = {
+        name: person.name,
+        number: person.number,
+        id: idMax + 1
+    }
+
+    persons = persons.concat(newPerson)
+
+    response.json(newPerson)
 
 })
 
