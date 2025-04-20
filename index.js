@@ -3,8 +3,7 @@ const app = express() // creamos la app
 
 app.use(express.json())
 
-let persons =
-     [
+let persons = [
       {
         "name": "Arto Hellas",
         "number": "040-654321",
@@ -26,6 +25,10 @@ let persons =
         "id": 4
       }
     ]
+
+const sameName = (name) => {
+    return persons.some(p => p.name === name)
+}
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
@@ -60,9 +63,15 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const person = request.body
 
-    if(!person || !person.name){
+    if(!person.number || !person.name){
         return response.status(400).json({
-            error: 'person content is missing'
+            error: 'Person name or number is missing'
+        })
+    }
+
+    if(sameName(person.name)){
+        return response.status(400).json({
+            error: 'Person name is already in phonebook'
         })
     }
 
