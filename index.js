@@ -1,7 +1,9 @@
 const express = require('express') //importar el modulo de express
+const morgan = require('morgan')
 const app = express() // creamos la app
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
       {
