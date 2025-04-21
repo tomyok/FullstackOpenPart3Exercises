@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "@powershell -Command \"Remove-Item -Recurse -Force dist; cd 'C:\\Users\\tomy-\\Desktop\\FullStackOpenCourse\\part2\\part2bexercises'; npm run build; Copy-Item -Recurse -Force dist 'C:\\Users\\tomy-\\Desktop\\parte3-ejercicios'\"",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "keywords": [],
   "author": "",
