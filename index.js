@@ -81,7 +81,7 @@ app.post('/api/persons', (request, response) => {
     }
 
     const ids = persons.map(person => person.id)
-    const idMax = Math.max(...ids)
+    const idMax = ids.length > 0 ? Math.max(...ids) : 0
 
     const newPerson = {
         name: person.name,
