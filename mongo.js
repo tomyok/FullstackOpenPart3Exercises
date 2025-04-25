@@ -30,7 +30,7 @@ if(newName !== undefined){
       number: newNumber,
     })
     
-    person.save().then(result => {
+    person.save().then(() => {
       console.log(`added ${newName}, ${newNumber} to phonebook`)
       mongoose.connection.close()
     })
