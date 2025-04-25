@@ -1,7 +1,6 @@
-PUT http://localhost:3001/api/persons/680a5ff3647413dfd8275b9d
+PUT http://localhost:3001/api/persons/680a63f8ae6119c625400f2b
 Content-Type: application/json
 
 {
-    "name": "Ruberto Hellas",
     "number": "040-653321"
 }

@@ -10,22 +10,23 @@ app.use(morgan('tiny'))
 app.use(express.static('dist'))
 app.use(cors())
 
-let persons = []
-
 const sameName = (name) => {
     return persons.some(p => p.name === name)
 }
 
-app.get('/api/persons', (request, response) => {
+app.get('/info', (request, response, next) => {
+    Person.countDocuments({}).then(count => {
+        const date = new Date()
+        response.send(`<p>Phonebook has info for ${count} people</p><p>${date}</p>`)
+    })
+    .catch(error => next(error))
+})
+
+app.get('/api/persons', (request, response, next) => {
     Person.find({}).then(person => {
         response.json(person)
     })
-})
-
-app.get('/info', (request, response) => {
-    let lengthPersons = persons.length
-    const date = new Date()
-    response.send(`<p>Phonebook has info for ${lengthPersons} people</p><p>${date}</p>`)
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
