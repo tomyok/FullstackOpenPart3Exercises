@@ -11,7 +11,9 @@ app.use(express.static('dist'))
 app.use(cors())
 
 const sameName = (name) => {
-    return persons.some(p => p.name === name)
+    Person.exists({name: name}).then(result => {
+        return result
+    })
 }
 
 app.get('/info', (request, response, next) => {
@@ -93,7 +95,9 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
+    }
   
     next(error)
 }
