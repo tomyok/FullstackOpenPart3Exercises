@@ -29,21 +29,15 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-
-    if(person){
-        response.json(person)
-    } else {
-        response.status(404).end()
-    }
-
-})
-
-app.delete('/api/persons/:id', (request, response) => {
     Person.findById(request.params.id).then(person => {
         response.json(person)
     })
+})
+
+app.delete('/api/persons/:id', (request, response, next) => {
+    Person.findByIdAndDelete(request.params.id).then(result => {
+        response.status(204).end()
+    }).catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response) => {
@@ -71,6 +65,21 @@ app.post('/api/persons', (request, response) => {
     })
 
 })
+
+app.put('/api/persons/:id', (request, response, next) => {
+    const body = request.body
+  
+    const person = {
+      name: body.name,
+      number: body.number,
+    }
+  
+    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+      .then(updatedPerson => {
+        response.json(updatedPerson)
+      })
+      .catch(error => next(error))
+  })
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
