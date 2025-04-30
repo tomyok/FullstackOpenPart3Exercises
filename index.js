@@ -3,6 +3,8 @@ const express = require('express') //importar el modulo de express
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express() // creamos la app
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 const Person = require('./models/person')
 
 app.use(express.json())
@@ -104,7 +106,6 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+app.listen(config.PORT, () => {
+    logger.info(`Server running on port ${config.PORT}`)
 })
