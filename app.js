@@ -23,7 +23,7 @@ app.use(cors())
 app.use(express.static('dist'))
 app.use(express.json())
 
-app.use('/api/notes', personsRouter)
+app.use('/api/persons', personsRouter)
 
 app.use(middleware.errorHandler)
 
